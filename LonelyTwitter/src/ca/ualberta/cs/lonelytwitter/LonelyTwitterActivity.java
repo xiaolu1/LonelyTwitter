@@ -73,7 +73,7 @@ public class LonelyTwitterActivity extends Activity {
 		ArrayList<Tweet> lts = new ArrayList<Tweet>();
 
 		try {
-			FileInputStream fis = openFileInput(FILENAME);
+			FileInputStream fis = new FileInputStream(FILENAME);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
 			lts = (ArrayList<Tweet>) ois.readObject();
@@ -88,7 +88,7 @@ public class LonelyTwitterActivity extends Activity {
 	
 	public void saveTweets(List<Tweet> lts) {
 		try {
-			FileOutputStream fos = openFileOutput(FILENAME, 0);
+			FileOutputStream fos = new FileOutputStream(FILENAME);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(lts);
 			fos.close();
