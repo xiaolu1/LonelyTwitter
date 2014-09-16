@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-public class Tweet implements Serializable {
+public class Tweet extends AbstractTweet implements Serializable {
+	
 	private Date tweetDate;
 	private String tweetBody;
 
