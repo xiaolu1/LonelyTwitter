@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ca.ualberta.cs.lonelytwitter.data.DataFileManager;
+import ca.ualberta.cs.lonelytwitter.data.IDataManager;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,13 +23,15 @@ import android.widget.ListView;
 
 public class LonelyTwitterActivity extends Activity {
 
+	private IDataManager dataManager;
+	
 	private static final String FILENAME = "file.sav";
 	
 	private EditText bodyText;
 	
-	private ArrayList<Tweet> tweets;
+	private ArrayList<AbstractTweet> tweets;
 	
-	private ArrayAdapter<Tweet> tweetsViewAdapter;
+	private ArrayAdapter<AbstractTweet> tweetsViewAdapter;
 	
 	private ListView oldTweetsList;
 
@@ -45,28 +50,39 @@ public class LonelyTwitterActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 		
-		tweets = loadTweets();
-		tweetsViewAdapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);
+		dataManager = new DataFileManager();
+		
+		tweets = dataManager.loadTweets();
+		
+		tweetsViewAdapter = new ArrayAdapter<AbstractTweet>(this, R.layout.list_item, tweets);
 		oldTweetsList.setAdapter(tweetsViewAdapter);
 	}
 	
 	public void save(View v) {
 		
 		String text = bodyText.getText().toString();
+		if (text.contains("*")){
+			StartedTweet starred = new StartedTweet(new Date(),text);
+			tweets.add(starred);
+		}
+		else{
+			Tweet tweet =new Tweet(new Date(), text);
+			tweets.add(tweet);
+		}
 		Tweet tweet = new Tweet(new Date(), text);
 		
 		tweets.add(tweet);
 		tweetsViewAdapter.notifyDataSetChanged();
 		
 		bodyText.setText("");
-		saveTweets(tweets);
+		dataManager.saveTweets(tweets);
 	}
 	
 	public void clear(View v) {
 		
 		tweets.clear();
 		tweetsViewAdapter.notifyDataSetChanged();
-		saveTweets(tweets);
+		dataManager.saveTweets(tweets);
 	}
 	
 	public ArrayList<Tweet> loadTweets() {
