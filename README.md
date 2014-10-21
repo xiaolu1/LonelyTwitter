@@ -8,4 +8,4 @@ This code is only for demonstrating Eclipse, Android and jUnit development.
 
 This code is originally gotten from:
 https://github.com/aewilson-ua/lonelyTwitter
-Changes by Ali Sajedi.
+and is hanged by Ali Sajedi.
