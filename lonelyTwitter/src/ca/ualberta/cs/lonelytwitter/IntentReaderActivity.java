@@ -27,7 +27,14 @@ public class IntentReaderActivity extends Activity {
 		setContentView(R.layout.activity_intent_reader);
 		
 		//TODO: Add your code here:
-
+		Intent intent = getIntent();
+		mode = intent.getIntExtra(MODE_OF_TRANSFORM_KEY, NORMAL);
+		if (intent.getStringExtra(TEXT_TO_TRANSFORM_KEY)!=null)
+			text = transformText(intent.getStringExtra(TEXT_TO_TRANSFORM_KEY));
+		else
+			text="Defult text";
+		((TextView)findViewById(R.id.intentText)).setText(text);
+		
 	}
 
 	public String transformText(String str) {
